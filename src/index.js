@@ -5,7 +5,7 @@ dotenv.config()
 
 const app = new App({
 	signingSecret: process.env.SLACK_SIGNING_SECRET,
-	logLevel: LogLevel.INFO,
+	logLevel: LogLevel.DEBUG,
 	token: process.env.SLACK_BOT_TOKEN,
 	endpoints: {
 		events: '/slack/events',
@@ -16,11 +16,16 @@ const app = new App({
 app.command('/chess', async ({ command, ack, say }) => {
 	await ack()
 
-	await say(`${command.text}`)
+	await say(`${command.text}, (${command.user_name})`)
 })
 
-app.error((error) => {
-	console.error(error)
+app.error((/** @type Error */ err) => {
+	if (err.code === 'slack_webapi_platform_error') {
+		if (err.data.error === 'not_in_channel') {
+			console.error('NOT IN CHANNEL')
+		}
+	}
+	console.error(err)
 })
 
 ;(async () => {
