@@ -1,0 +1,14 @@
+{
+	"type": "module",
+	"scripts": {
+		"dev": "nodemon src/index.js",
+		"start": "node src/index.js"
+	},
+	"dependencies": {
+		"@slack/bolt": "^2.4.1",
+		"dotenv": "^8.2.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.6"
+	}
+}
